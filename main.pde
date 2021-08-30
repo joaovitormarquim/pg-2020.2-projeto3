@@ -1,29 +1,23 @@
-PImage mapaNormais;
-PImage imagemDifusa;
-PImage imagemEspecular;
-PImage imagemFinal;
+PImage normalVectors;
+PImage diffuseImage;
+PImage specularImage;
+PImage composedImage;
 
-int branco = 255;
-int cinza = 167;
-int preto = 0;
+int WHITE = 255;
+int GREY = 160;
+int BLACK = 0;
 
-int controleDifuso[] = {branco, preto, branco};
-int controleEspecular[] = {branco, preto, branco};
-int controleDoVermelho = preto;
-int controleDoVerde = preto;
-int controleDoAzul = preto;
+int diffuseControl[] = {WHITE, BLACK, WHITE};
+int specularControl[] = {WHITE, BLACK, WHITE};
 
-float r = 255;
-float g = 255;
-float b = 255;
+float red = 255;
+float green = 255;
+float blue = 255;
 
-int fonteDoBotaoComponente = 30;
-int fonteDoBotaoCores = 25;
-
-PVector direcaoDaVista = new PVector(0, 1, 1);
-PVector direcaoDaLuz;
-color corDaLuz;
-float brilho;
+PVector viewDirection = new PVector(0, 1, 1);
+PVector lightDirection;
+color lightColor;
+float brightness;
 float coordX, coordY;
 
 // start rendering
@@ -32,22 +26,22 @@ void setup() {
     background(0);
     size(800, 800);
     // loading images
-    imagemDifusa = loadImage("./Imagens/d.png");
-    imagemEspecular = loadImage("./Imagens/s.png");
-    mapaNormais = loadImage("./Imagens/n.png");
+    diffuseImage = loadImage("./Imagens/d.png");
+    specularImage = loadImage("./Imagens/s.png");
+    normalVectors = loadImage("./Imagens/n.png");
     // defining inital controls
-    brilho = 1;
-    corDaLuz = color(255, 255, 255, 255);
-    direcaoDaLuz = new PVector(-1, 0, 1).normalize();
-    coordX = width/2.0 - imagemDifusa.width/2.0;
-    coordY = height/2.0 - imagemDifusa.height/2.0;
+    brightness = 0.5;
+    lightColor = color(255, 255, 255, 255);
+    lightDirection = new PVector(-1, 0, 1).normalize();
+    coordX = width/2.0 - diffuseImage.width/2.0;
+    coordY = height/2.0 - diffuseImage.height/2.0;
 }
 
 void draw() {
-    botoes();
-    corDaLuz = color(r, g, b);
-    direcaoDaLuz = new PVector(mouseX - width/10, mouseY - height/10, 0.1).normalize();
-    imagemFinal = createImage(imagemDifusa.width, imagemDifusa.height, ARGB);
-    renderizarImagem();
-    image(imagemFinal, coordX, coordY);
+    buttons();
+    lightColor = color(red, green, blue);
+    lightDirection = new PVector(mouseX - width/10, mouseY - height/10, 0.1).normalize();
+    composedImage = createImage(diffuseImage.width, diffuseImage.height, ARGB);
+    renderImage();
+    image(composedImage, coordX, coordY);
 }
